@@ -27,13 +27,13 @@ const useStyles = makeStyles(
       title: {
         color: "white",
         fontSize: "4rem",
-        fontWeight: "bolder",
+        fontWeight: typography.fontWeightBold,
         textAlign: "left",
       },
       subTitle: {
         color: "white",
         fontSize: "1.6rem",
-        fontWeight: "normal",
+        fontWeight: typography.fontWeightBold,
         textAlign: "left",
       },
       box: {},
