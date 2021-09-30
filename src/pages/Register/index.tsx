@@ -6,6 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import { Formik } from "formik";
 import * as yup from "yup";
 
+import Link from "@material-ui/core/Link";
+
 const useStyles = makeStyles(
   ({ typography: { pxToRem, ...typography }, ...theme }) =>
     createStyles({
@@ -191,6 +193,9 @@ const RegisterPage: React.FC = () => {
                   >
                     Criar conta
                   </Button>
+                  <Link href="#" className={classes.linkSecundary}>
+                    Esqueceu a senha?
+                  </Link>
                 </div>
               </div>
             </form>
