@@ -9,7 +9,7 @@ import Projects from "../../pages/Projects";
 
 const Routes: React.FC = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         <Route path={ROUTES.USER_ROUTES.LOGIN} exact component={LoginPage} />
         <Route path={ROUTES.USER_ROUTES.REGISTER} exact component={RegisterPage} />
@@ -17,7 +17,7 @@ const Routes: React.FC = () => {
         <Route path={ROUTES.USER_ROUTES.PROJECTS} exact component={Projects} />
         <Redirect path="*" to={ROUTES.USER_ROUTES.LOGIN} />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
