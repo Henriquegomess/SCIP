@@ -2,9 +2,10 @@ const ROUTES = {
     USER_ROUTES: {
       HOME: "/home",
       LOGIN: "/login",
-      REGISTER: "register",
+      REGISTER: "/register",
       FORGOTPASSWORD: "/forgot-password",
-      PROJECTS: "/projects"
+      PROJECTS: "/projects",
+      DASHBOARD: "/dashboard"
     },
   };
   

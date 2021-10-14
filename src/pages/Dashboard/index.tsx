@@ -89,7 +89,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer() {
+const Dashboard: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -183,4 +183,6 @@ export default function MiniDrawer() {
       </Box>
     </Box>
   );
-}
+};
+
+export default Dashboard;

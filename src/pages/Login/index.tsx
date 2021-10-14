@@ -6,6 +6,7 @@ import Link from "@material-ui/core/Link";
 
 import { Formik } from "formik";
 import * as yup from "yup";
+import ROUTES from "../../config/routes";
 
 const useStyles = makeStyles(
   ({ typography: { pxToRem, ...typography }, ...theme }) =>
@@ -174,13 +175,14 @@ const LoginPage: React.FC = () => {
                       padding: "0.8rem 0",
                     }}
                     type="submit"
+                    href={ROUTES.USER_ROUTES.DASHBOARD}
                   >
                     Entrar
                   </Button>
-                  <Link href="#" className={classes.linkSecundary}>
+                  <Link href={ROUTES.USER_ROUTES.FORGOTPASSWORD} className={classes.linkSecundary}>
                     Esqueceu a senha?
                   </Link>
-                  <Link href="#" className={classes.linkPrimary}>
+                  <Link href={ROUTES.USER_ROUTES.REGISTER}className={classes.linkPrimary}>
                     Ainda não tem cadastro?
                   </Link>
                 </div>

@@ -26,7 +26,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-import Fire from "./fire.svg";
+import Fire from "../../fire.svg";
 import { Button } from "@mui/material";
 
 import TextField from "@mui/material/TextField";
@@ -78,7 +78,7 @@ const rows = [
   createData("Site novo", 262, 16.0, 51, 2412, "Back-end", true),
   createData("Planejamento anual", 305, 12, 67, 4212, "Back-end", true),
   createData("Extração de dados", 356, 65, 49, 7642, "Front-end", true),
-//   createData("Teste", 0, 0, 0, 0, "---", true),
+  //   createData("Teste", 0, 0, 0, 0, "---", true),
 ];
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -168,7 +168,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer() {
+const Projects: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -521,4 +521,6 @@ export default function MiniDrawer() {
       </Box>
     </Box>
   );
-}
+};
+
+export default Projects;
