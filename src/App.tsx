@@ -1,3 +1,4 @@
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import Routes from "./components/Routes";
 // import Theme from "./components/Theme";
@@ -6,8 +7,16 @@ import Routes from "./components/Routes";
 import "./index.css";
 
 const App: React.FC = () => {
-
-  return <Routes></Routes>;
+  return (
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+    >
+       <Routes></Routes>;
+    </SnackbarProvider>
+  );
 };
-
 export default App;

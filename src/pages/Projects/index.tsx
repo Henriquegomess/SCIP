@@ -78,6 +78,7 @@ const rows = [
   createData("Site novo", 262, 16.0, 51, 2412, "Back-end", true),
   createData("Planejamento anual", 305, 12, 67, 4212, "Back-end", true),
   createData("Extração de dados", 356, 65, 49, 7642, "Front-end", true),
+  createData("Teste na hora da aula", 0, 0, 0, 0, "-", true),
   //   createData("Teste", 0, 0, 0, 0, "---", true),
 ];
 

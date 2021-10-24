@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -7,6 +7,14 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 import Link from "@material-ui/core/Link";
+import axios from "axios";
+
+import api from "../../services/api";
+
+import { SnackbarProvider, useSnackbar } from "notistack";
+import AppError from "../../utils/appError";
+import UserList from "../../components/UserList";
+import ROUTES from "../../config/routes";
 
 const useStyles = makeStyles(
   ({ typography: { pxToRem, ...typography }, ...theme }) =>
@@ -75,19 +83,78 @@ const useStyles = makeStyles(
     })
 );
 
+// axios.get('https://scip-api.herokuapp.com/api/perfis')
+//   .then((response) => {
+//     console.log(response.data);
+//     console.log(response.status);
+//     console.log(response.statusText);
+//     console.log(response.headers);
+//     console.log(response.config);
+//   });
+
+export interface Projects {
+  nome: string;
+}
+
+export interface User {
+  id: number;
+  nome: string;
+}
+
+export interface NewUser {
+  nome: string;
+}
+
+const apiClient = axios.create({
+  baseURL: "https://scip-api.herokuapp.com/api",
+  responseType: "json",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// export type TUserList = User[];
+
 const RegisterPage: React.FC = () => {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [users, setUserList] = useState<User[]>([]);
+
+  const [projects, setProjectsList] = useState<Projects[]>([]);
+
+  const url = "https://scip-api.herokuapp.com/api/perfis";
+
+  const [post, setPost] = React.useState(null);
+
+  axios
+    .get<User[]>("https://scip-api.herokuapp.com/api/perfis")
+    .then((response) => {
+      console.log(response.data);
+      setUserList(response.data);
+    });
+
+  axios
+    .get<Projects[]>("https://scip-api.herokuapp.com/api/projetos")
+    .then((response) => {
+      console.log(response.data);
+      setProjectsList(response.data);
+    });
+
+  // const [users, setUserList] = useState<TUserList>();
+
+  // useEffect(() => {
+  //   // Use [] as second argument in useEffect for not rendering each time
+  //   axios
+  //     .get<TUserList>("https://scip-api.herokuapp.com/api/perfis")
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setUserList(response.data);
+  //     });
+  // }, []);
 
   const validationSchema = yup.object().shape({
     name: yup.string().required("Este campo é obrigatório"),
-    email: yup
-      .string()
-      .email("Você precisa digitar um email válido")
-      .required("Este compo é obrigatório"),
-    password: yup
-      .string()
-      .max(25, "Sua senha tem mais de 25 caracteres")
-      .required("Este compo é obrigatório"),
   });
 
   return (
@@ -112,19 +179,33 @@ const RegisterPage: React.FC = () => {
       </Grid>
       <Grid item xs lg={5} className={classes.secondColumn}>
         <Formik
-          initialValues={{ email: "", password: "", name: "" }}
+          initialValues={{ name: "" }}
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
             try {
               actions.resetForm();
+              enqueueSnackbar("Usuário criado com sucesso", {
+                variant: "success",
+              });
             } catch (error) {
-              return "";
+              if (error instanceof AppError) {
+                return enqueueSnackbar(error.message, {
+                  variant: error.variant,
+                });
+              }
+              return console.log(error);
             }
           }}
         >
           {(props) => (
             <form onSubmit={props.handleSubmit} method="POST">
               <div style={{ width: "23rem" }}>
+                <Link
+                  href={ROUTES.USER_ROUTES.LOGIN}
+                  className={classes.linkSecundary}
+                >
+                  Voltar
+                </Link>
                 <Typography className={classes.titleForm}>Olá!</Typography>
                 <Typography className={classes.subTitleForm}>
                   Crie uma conta e inicie.
@@ -137,7 +218,7 @@ const RegisterPage: React.FC = () => {
                   }}
                 >
                   <TextField
-                    value={props.values.email}
+                    value={props.values.name}
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
                     id="name"
@@ -151,11 +232,11 @@ const RegisterPage: React.FC = () => {
                   {props.touched.name && props.errors.name && (
                     <div style={{ color: "red" }}>{props.errors.name}</div>
                   )}
-                  <TextField
-                    id="password"
-                    name="password"
+                  {/* <TextField
+                    id="email"
+                    name="email"
                     label="Email"
-                    value={props.values.password}
+                    value={props.values.email}
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
                     variant="outlined"
@@ -181,7 +262,9 @@ const RegisterPage: React.FC = () => {
                   />
                   {props.touched.password && props.errors.password && (
                     <div style={{ color: "red" }}>{props.errors.password}</div>
-                  )}
+                    
+                  )} */}
+                  <UserList items={users} />
                   <Button
                     style={{
                       backgroundColor: "#0575E6",

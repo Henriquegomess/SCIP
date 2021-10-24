@@ -7,6 +7,7 @@ import Link from "@material-ui/core/Link";
 import { Formik } from "formik";
 import * as yup from "yup";
 import ROUTES from "../../config/routes";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 const useStyles = makeStyles(
   ({ typography: { pxToRem, ...typography }, ...theme }) =>
@@ -77,16 +78,10 @@ const useStyles = makeStyles(
 
 const LoginPage: React.FC = () => {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Você precisa digitar um email válido")
-      .required("Este compo é obrigatório"),
-    password: yup
-      .string()
-      .max(25, "Sua senha tem mais de 25 caracteres")
-      .required("Este compo é obrigatório"),
+    nome: yup.string().required("Este compo é obrigatório"),
   });
 
   return (
@@ -111,11 +106,16 @@ const LoginPage: React.FC = () => {
       </Grid>
       <Grid item xs lg={5} className={classes.secondColumn}>
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ nome: "" }}
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
             try {
               actions.resetForm();
+              if (values.nome === "Alex" ||  values.nome === "Andre") {
+                enqueueSnackbar("Usuário não encontrado", {
+                  variant: "error",
+                });
+              }
             } catch (error) {
               return "";
             }
@@ -138,21 +138,21 @@ const LoginPage: React.FC = () => {
                   }}
                 >
                   <TextField
-                    value={props.values.email}
+                    value={props.values.nome}
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    id="email"
-                    name="email"
-                    label="Email"
+                    id="nome"
+                    name="nome"
+                    label="nome"
                     variant="outlined"
-                    placeholder="Digite o seu email"
+                    placeholder="Digite o seu nome"
                     style={{ marginBottom: "0rem" }}
-                    type="email"
+                    type="nome"
                   />
-                  {props.touched.email && props.errors.email && (
-                    <div style={{ color: "red" }}>{props.errors.email}</div>
+                  {props.touched.nome && props.errors.nome && (
+                    <div style={{ color: "red" }}>{props.errors.nome}</div>
                   )}
-                  <TextField
+                  {/* <TextField
                     id="password"
                     name="password"
                     label="Senha"
@@ -166,7 +166,7 @@ const LoginPage: React.FC = () => {
                   />
                   {props.touched.password && props.errors.password && (
                     <div style={{ color: "red" }}>{props.errors.password}</div>
-                  )}
+                  )} */}
                   <Button
                     style={{
                       backgroundColor: "#0575E6",
@@ -175,14 +175,20 @@ const LoginPage: React.FC = () => {
                       padding: "0.8rem 0",
                     }}
                     type="submit"
-                    href={ROUTES.USER_ROUTES.DASHBOARD}
+                    href={ROUTES.USER_ROUTES.PROJECTS}
                   >
                     Entrar
                   </Button>
-                  <Link href={ROUTES.USER_ROUTES.FORGOTPASSWORD} className={classes.linkSecundary}>
+                  <Link
+                    href={ROUTES.USER_ROUTES.FORGOTPASSWORD}
+                    className={classes.linkSecundary}
+                  >
                     Esqueceu a senha?
                   </Link>
-                  <Link href={ROUTES.USER_ROUTES.REGISTER}className={classes.linkPrimary}>
+                  <Link
+                    href={ROUTES.USER_ROUTES.REGISTER}
+                    className={classes.linkPrimary}
+                  >
                     Ainda não tem cadastro?
                   </Link>
                 </div>
